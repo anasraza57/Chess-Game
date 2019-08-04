@@ -13,6 +13,6 @@ else:
         while True:
             p1 = Player1(gb.arr)
             gb.display_board(gb.arr)
-            p1.p1_pawn_mov()
+            p1.knight_move()
     else:
         exit()

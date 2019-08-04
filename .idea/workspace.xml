@@ -13,8 +13,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/GameBoard.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+            <state relative-caret-position="359">
+              <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
             </state>
           </provider>
         </entry>
@@ -34,8 +34,22 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Player1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="78" column="39" lean-forward="true" selection-start-line="78" selection-start-column="39" selection-end-line="97" selection-end-column="43" />
+            <state relative-caret-position="408">
+              <caret line="737" lean-forward="true" selection-start-line="737" selection-end-line="737" />
+              <folding>
+                <element signature="e#52#66#0" />
+                <element signature="e#129#494#0" />
+                <element signature="e#541#722#0" />
+                <element signature="e#766#1093#0" />
+                <element signature="e#1157#2025#0" />
+                <element signature="e#2081#4602#0" />
+                <element signature="e#4636#15023#0" />
+                <element signature="e#15362#20812#0" />
+                <element signature="e#20545#26577#0" />
+                <element signature="e#27562#37560#0" />
+                <element signature="e#37596#43888#0" />
+                <element signature="e#41696#45858#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -55,20 +69,22 @@
       <find>pawn_mov</find>
       <find>rightenemy</find>
       <find>3</find>
+      <find>p1_pawn_mov</find>
     </findStrings>
     <replaceStrings>
       <replace>is_selected_correctly</replace>
       <replace>p1_pawn_mov</replace>
       <replace>right_enemy</replace>
+      <replace>pawn_mov</replace>
     </replaceStrings>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
         <option value="E:/BSIT/Projects/GitHub/Chess-Game/GameBoard.py" />
-        <option value="$PROJECT_DIR$/GameBoard.py" />
-        <option value="$PROJECT_DIR$/Driver.py" />
         <option value="$PROJECT_DIR$/Player1.py" />
+        <option value="$PROJECT_DIR$/Driver.py" />
+        <option value="$PROJECT_DIR$/GameBoard.py" />
       </list>
     </option>
   </component>
@@ -83,18 +99,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="ProjectPane" />
       <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Chess" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Chess" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
     </panes>
   </component>
   <component name="RunDashboard">
@@ -152,7 +158,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14732143" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -203,15 +208,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/GameBoard.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="25" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
+        <state relative-caret-position="359">
+          <caret line="43" lean-forward="true" selection-start-line="43" selection-end-line="43" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Player1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="78" column="39" lean-forward="true" selection-start-line="78" selection-start-column="39" selection-end-line="97" selection-end-column="43" />
+        <state relative-caret-position="408">
+          <caret line="737" lean-forward="true" selection-start-line="737" selection-end-line="737" />
+          <folding>
+            <element signature="e#52#66#0" />
+            <element signature="e#129#494#0" />
+            <element signature="e#541#722#0" />
+            <element signature="e#766#1093#0" />
+            <element signature="e#1157#2025#0" />
+            <element signature="e#2081#4602#0" />
+            <element signature="e#4636#15023#0" />
+            <element signature="e#15362#20812#0" />
+            <element signature="e#20545#26577#0" />
+            <element signature="e#27562#37560#0" />
+            <element signature="e#37596#43888#0" />
+            <element signature="e#41696#45858#0" />
+          </folding>
         </state>
       </provider>
     </entry>

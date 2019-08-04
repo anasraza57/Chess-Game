@@ -14,11 +14,10 @@ class Player1:
             print('Coordinates are invalid!')
         return False
 
-    def is_moveable(self, name, row, col):
+    def is_moveable(self, row, col):
         if 0 <= row <= 7 and 0 <= col <= 7:  # checking the valid index
-            if name == 'R':
-                if self.arr[row][col] == '0' or self.is_enemy(row, col):
-                    return True
+            if self.arr[row][col] == '0' or self.is_enemy(row, col):
+                return True
         return False
 
     def is_enemy(self, row, col):
@@ -37,11 +36,27 @@ class Player1:
                     start += 1
                 else:
                     return True
-            if name == 'col':
+            elif name == 'col':
                 while start + 1 < end:
                     if self.arr[other][start + 1] != '0':
                         return False
                     start += 1
+                else:
+                    return True
+            elif name == 'right_to_left':
+                while start + 1 < end:
+                    if self.arr[start + 1][other - 1] != '0':
+                        return False
+                    start += 1
+                    other -= 1
+                else:
+                    return True
+            elif name == 'left_to_right':
+                while start + 1 < end:
+                    if self.arr[start + 1][other + 1] != '0':
+                        return False
+                    start += 1
+                    other += 1
                 else:
                     return True
         else:
@@ -102,8 +117,8 @@ class Player1:
 
         return False
 
-    def p1_pawn_mov(self):
-        print("Which Pawn you want to move?")
+    def pawn_mov(self):
+        print("Which pawn you want to move?")
         i = int(input("Enter the row num: "))
         j = int(input("Enter the column num: "))
         while not self.is_selected_correctly(i - 1, j - 1, 'P'):  # calling function to check if user selected the
@@ -263,7 +278,7 @@ class Player1:
                 print("Can't move!")
 
     def rook_move(self):
-        print("Which Rook you want to move?")
+        print("Which rook you want to move?")
         i = int(input("Enter the row num: "))
         j = int(input("Enter the column num: "))
         while not self.is_selected_correctly(i - 1, j - 1, 'R'):  # calling function to check if user selected the
@@ -271,10 +286,10 @@ class Player1:
             print("Please enter the row or column num correctly")
             i = int(input("Enter the row num: "))
             j = int(input("Enter the column num: "))
-        while not self.is_moveable('R', i - 2, j - 1) and not self.is_moveable('R', i, j - 1) and not self.is_moveable(
-                'R', i - 1, j - 2) and not self.is_moveable('R', i - 1, j):
+        while (not self.is_moveable(i - 2, j - 1)) and (not self.is_moveable(i, j - 1)) and (
+                not self.is_moveable(i - 1, j - 2)) and (not self.is_moveable(i - 1, j)):
             print("This rook can't move")
-            print("Which Rook you want to move?")
+            print("Which rook you want to move?")
             i = int(input("Enter the row num: "))
             j = int(input("Enter the column num: "))
             while not self.is_selected_correctly(i - 1, j - 1, 'R'):  # calling function to check if user selected the
@@ -287,10 +302,10 @@ class Player1:
             dic = input("Please enter the direction(L,R,U,D): ").lower()
             while dic != 'l' and dic != 'r' and dic != 'u' and dic != 'd':
                 dic = input("Please enter the direction correctly(L,R,U,D): ").lower()
-            while (dic == 'l' and not self.is_moveable('R', i - 1, j - 2)) or (
-                    dic == 'r' and not self.is_moveable('R', i - 1, j)) or (
-                    dic == 'u' and not self.is_moveable('R', i - 2, j - 1)) or (
-                    dic == 'd' and not self.is_moveable('R', i, j - 1)):
+            while (dic == 'l' and not self.is_moveable(i - 1, j - 2)) or (
+                    dic == 'r' and not self.is_moveable(i - 1, j)) or (
+                    dic == 'u' and not self.is_moveable(i - 2, j - 1)) or (
+                    dic == 'd' and not self.is_moveable(i, j - 1)):
                 print("Can't move in that direction")
                 dic = input("Please enter the direction correctly(L,R,U,D): ").lower()
                 while dic != 'l' and dic != 'r' and dic != 'u' and dic != 'd':
@@ -302,8 +317,8 @@ class Player1:
                     mov = int(input("Please enter the number of steps you want to move = "))
                 else:
                     if dic == 'd':
-                        while (i - 1 + mov > 7) or (not self.is_path_clear(i - 1, i - 1 + mov, j - 1, 'row') or (
-                                self.arr[i - 1 + mov][j - 1] != '0' and not self.is_enemy(i - 1 + mov, j - 1))):
+                        while (i - 1 + mov > 7) or (not self.is_path_clear(i - 1, i - 1 + mov, j - 1, 'row')) or (
+                                self.arr[i - 1 + mov][j - 1] != '0' and not self.is_enemy(i - 1 + mov, j - 1)):
                             print("Can't move!")
                             mov = int(input("Please enter the number of steps you want to move = "))
                             while mov <= 0:
@@ -324,8 +339,8 @@ class Player1:
                             self.arr[i - 1][j - 1 + mov] = self.arr[i - 1][j - 1]
                             self.arr[i - 1][j - 1] = '0'
                     elif dic == 'u':
-                        while (i - 1 - mov < 0) or (not self.is_path_clear(i - 1 - mov, i - 1, j - 1, 'row') or (
-                                self.arr[i - 1 - mov][j - 1] != '0' and not self.is_enemy(i - 1 - mov, j - 1))):
+                        while (i - 1 - mov < 0) or (not self.is_path_clear(i - 1 - mov, i - 1, j - 1, 'row')) or (
+                                self.arr[i - 1 - mov][j - 1] != '0' and not self.is_enemy(i - 1 - mov, j - 1)):
                             print("Can't move!")
                             mov = int(input("Please enter the number of steps you want to move = "))
                             while mov <= 0:
@@ -335,8 +350,8 @@ class Player1:
                             self.arr[i - 1 - mov][j - 1] = self.arr[i - 1][j - 1]
                             self.arr[i - 1][j - 1] = '0'
                     elif dic == 'l':
-                        while (j - 1 - mov < 0) or (not self.is_path_clear(j - 1 - mov, j - 1, i - 1, 'col') or (
-                                self.arr[i - 1][j - 1 - mov] != '0' and not self.is_enemy(i - 1, j - 1 - mov))):
+                        while (j - 1 - mov < 0) or (not self.is_path_clear(j - 1 - mov, j - 1, i - 1, 'col')) or (
+                                self.arr[i - 1][j - 1 - mov] != '0' and not self.is_enemy(i - 1, j - 1 - mov)):
                             print("Can't move!")
                             mov = int(input("Please enter the number of steps you want to move = "))
                             while mov <= 0:
@@ -345,3 +360,378 @@ class Player1:
                         else:
                             self.arr[i - 1][j - 1 - mov] = self.arr[i - 1][j - 1]
                             self.arr[i - 1][j - 1] = '0'
+
+    def bishop_move(self):
+        print("Which bishop you want to move?")
+        i = int(input("Enter the row num: "))
+        j = int(input("Enter the column num: "))
+        while not self.is_selected_correctly(i - 1, j - 1, 'B'):  # calling function to check if user selected the
+            # correct piece
+            print("Please enter the row or column num correctly")
+            i = int(input("Enter the row num: "))
+            j = int(input("Enter the column num: "))
+        while (not self.is_moveable(i - 2, j - 2)) and (not self.is_moveable(i, j)) and (
+                not self.is_moveable(i - 2, j)) and (not self.is_moveable(i, j - 2)):
+            print("This bishop can't move")
+            print("Which bishop you want to move?")
+            i = int(input("Enter the row num: "))
+            j = int(input("Enter the column num: "))
+            while not self.is_selected_correctly(i - 1, j - 1, 'B'):  # calling function to check if user selected the
+                # correct piece
+                print("Please enter the row or column num correctly")
+                i = int(input("Enter the row num: "))
+                j = int(input("Enter the column num: "))
+        else:
+            dic = input(
+                "2 = Upper Right Diagonal, 4 = Lower Right Diagonal, 6 = Lower Left Diagonal, 8 = Upper Left Diagonal\n"
+                "Please enter the direction(2,4,6,8): ")
+            while dic != '2' and dic != '4' and dic != '6' and dic != '8':
+                dic = input(
+                    "2 = Upper Right Diagonal, 4 = Lower Right Diagonal, 6 = Lower Left Diagonal, 8 = Upper Left Diagonal\n"
+                    "Please enter the direction(2,4,6,8): ")
+            while (dic == '2' and not self.is_moveable(i - 2, j)) or (
+                    dic == '4' and not self.is_moveable(i, j)) or (
+                    dic == '6' and not self.is_moveable(i, j - 2)) or (
+                    dic == '8' and not self.is_moveable(i - 2, j - 2)):
+                print("Can't move in that direction")
+                dic = input(
+                    "2 = Upper Right Diagonal, 4 = Lower Right Diagonal, 6 = Lower Left Diagonal, 8 = Upper Left Diagonal\n"
+                    "Please enter the direction(2,4,6,8): ")
+                while dic != '2' and dic != '4' and dic != '6' and dic != '8':
+                    dic = input(
+                        "2 = Upper Right Diagonal, 4 = Lower Right Diagonal, 6 = Lower Left Diagonal, 8 = Upper Left Diagonal\n"
+                        "Please enter the direction(2,4,6,8): ")
+            else:
+                mov = int(input("Please enter the number of steps you want to move = "))
+                while mov <= 0:
+                    print("Invalid move!")
+                    mov = int(input("Please enter the number of steps you want to move = "))
+                else:
+                    if dic == '6':
+                        while (i - 1 + mov > 7 or j - 1 - mov < 0) or (
+                                not self.is_path_clear(i - 1, i - 1 + mov, j - 1, 'right_to_left')) or (
+                                self.arr[i - 1 + mov][j - 1 - mov] != '0' and not self.is_enemy(i - 1 + mov,
+                                                                                                j - 1 - mov)):
+                            print("Can't move!")
+                            mov = int(input("Please enter the number of steps you want to move = "))
+                            while mov <= 0:
+                                print("Invalid move!")
+                                mov = int(input("Please enter the number of steps you want to move = "))
+                        else:
+                            self.arr[i - 1 + mov][j - 1 - mov] = self.arr[i - 1][j - 1]
+                            self.arr[i - 1][j - 1] = '0'
+                    elif dic == '4':
+                        while (i - 1 + mov > 7 or j - 1 + mov > 7) or (
+                                not self.is_path_clear(i - 1, i - 1 + mov, j - 1, 'left_to_right')) or (
+                                self.arr[i - 1 + mov][j - 1 + mov] != '0' and not self.is_enemy(i - 1 + mov,
+                                                                                                j - 1 + mov)):
+                            print("Can't move!")
+                            mov = int(input("Please enter the number of steps you want to move = "))
+                            while mov <= 0:
+                                print("Invalid move!")
+                                mov = int(input("Please enter the number of steps you want to move = "))
+                        else:
+                            self.arr[i - 1 + mov][j - 1 + mov] = self.arr[i - 1][j - 1]
+                            self.arr[i - 1][j - 1] = '0'
+                    elif dic == '2':
+                        while (i - 1 - mov < 0 or j - 1 + mov > 7) or (
+                                not self.is_path_clear(i - 1 - mov, i - 1, j - 1 + mov, 'right_to_left')) or (
+                                self.arr[i - 1 - mov][j - 1 + mov] != '0' and not self.is_enemy(i - 1 - mov,
+                                                                                                j - 1 + mov)):
+                            print("Can't move!")
+                            mov = int(input("Please enter the number of steps you want to move = "))
+                            while mov <= 0:
+                                print("Invalid move!")
+                                mov = int(input("Please enter the number of steps you want to move = "))
+                        else:
+                            self.arr[i - 1 - mov][j - 1 + mov] = self.arr[i - 1][j - 1]
+                            self.arr[i - 1][j - 1] = '0'
+                    elif dic == '8':
+                        while (j - 1 - mov < 0 or i - 1 - mov < 0) or (
+                                not self.is_path_clear(i - 1 - mov, i - 1, j - 1 - mov, 'left_to_right') or (
+                                self.arr[i - 1 - mov][j - 1 - mov] != '0' and not self.is_enemy(i - 1 - mov,
+                                                                                                j - 1 - mov))):
+                            print("Can't move!")
+                            mov = int(input("Please enter the number of steps you want to move = "))
+                            while mov <= 0:
+                                print("Invalid move!")
+                                mov = int(input("Please enter the number of steps you want to move = "))
+                        else:
+                            self.arr[i - 1 - mov][j - 1 - mov] = self.arr[i - 1][j - 1]
+                            self.arr[i - 1][j - 1] = '0'
+
+    def queen_move(self):
+        print("Enter the coordinates of a queen!")
+        i = int(input("Enter the row num: "))
+        j = int(input("Enter the column num: "))
+        while not self.is_selected_correctly(i - 1, j - 1, 'Q'):  # calling function to check if user selected the
+            # correct piece
+            print("Please enter the row or column num correctly")
+            i = int(input("Enter the row num: "))
+            j = int(input("Enter the column num: "))
+        while (not self.is_moveable(i - 2, j - 1)) and (not self.is_moveable(i, j - 1)) and (
+                not self.is_moveable(i - 1, j - 2)) and (not self.is_moveable(i - 1, j)) and (
+                not self.is_moveable(i - 2, j - 2)) and (not self.is_moveable(i, j)) and (
+                not self.is_moveable(i - 2, j)) and (not self.is_moveable(i, j - 2)):
+            print("Queen can't move")
+            return False
+        else:
+            dic = input(
+                "2 = Upper Right Diagonal, 4 = Lower Right Diagonal, 6 = Lower Left Diagonal, 8 = Upper Left Diagonal\n"
+                "Please enter the direction(2,4,6,8,L,R,U,D): ").lower()
+            while dic != 'l' and dic != 'r' and dic != 'u' and dic != 'd' and dic != '2' and dic != '4' and dic != '6' and dic != '8':
+                dic = input(
+                    "2 = Upper Right Diagonal, 4 = Lower Right Diagonal, 6 = Lower Left Diagonal, 8 = Upper Left Diagonal\n"
+                    "Please enter the direction(2,4,6,8,L,R,U,D): ").lower()
+            while (dic == 'l' and not self.is_moveable(i - 1, j - 2)) or (
+                    dic == 'r' and not self.is_moveable(i - 1, j)) or (
+                    dic == 'u' and not self.is_moveable(i - 2, j - 1)) or (
+                    dic == 'd' and not self.is_moveable(i, j - 1)) or (
+                    dic == '2' and not self.is_moveable(i - 2, j)) or (
+                    dic == '4' and not self.is_moveable(i, j)) or (
+                    dic == '6' and not self.is_moveable(i, j - 2)) or (
+                    dic == '8' and not self.is_moveable(i - 2, j - 2)):
+                print("Can't move in that direction")
+                dic = input(
+                    "2 = Upper Right Diagonal, 4 = Lower Right Diagonal, 6 = Lower Left Diagonal, 8 = Upper Left Diagonal\n"
+                    "Please enter the direction(2,4,6,8,L,R,U,D): ").lower()
+                while dic != 'l' and dic != 'r' and dic != 'u' and dic != 'd' and dic != '2' and dic != '4' and dic != '6' and dic != '8':
+                    dic = input(
+                        "2 = Upper Right Diagonal, 4 = Lower Right Diagonal, 6 = Lower Left Diagonal, 8 = Upper Left Diagonal\n"
+                        "Please enter the direction(2,4,6,8,L,R,U,D): ").lower()
+            else:
+                mov = int(input("Please enter the number of steps you want to move = "))
+                while mov <= 0:
+                    print("Invalid move!")
+                    mov = int(input("Please enter the number of steps you want to move = "))
+                else:
+                    if dic == 'd':
+                        while (i - 1 + mov > 7) or (not self.is_path_clear(i - 1, i - 1 + mov, j - 1, 'row')) or (
+                                self.arr[i - 1 + mov][j - 1] != '0' and not self.is_enemy(i - 1 + mov, j - 1)):
+                            print("Can't move!")
+                            mov = int(input("Please enter the number of steps you want to move = "))
+                            while mov <= 0:
+                                print("Invalid move!")
+                                mov = int(input("Please enter the number of steps you want to move = "))
+                        else:
+                            self.arr[i - 1 + mov][j - 1] = self.arr[i - 1][j - 1]
+                            self.arr[i - 1][j - 1] = '0'
+                    elif dic == 'r':
+                        while (j - 1 + mov > 7) or (not self.is_path_clear(j - 1, j - 1 + mov, i - 1, 'col') or (
+                                self.arr[i - 1][j - 1 + mov] != '0' and not self.is_enemy(i - 1, j - 1 + mov))):
+                            print("Can't move!")
+                            mov = int(input("Please enter the number of steps you want to move = "))
+                            while mov <= 0:
+                                print("Invalid move!")
+                                mov = int(input("Please enter the number of steps you want to move = "))
+                        else:
+                            self.arr[i - 1][j - 1 + mov] = self.arr[i - 1][j - 1]
+                            self.arr[i - 1][j - 1] = '0'
+                    elif dic == 'u':
+                        while (i - 1 - mov < 0) or (not self.is_path_clear(i - 1 - mov, i - 1, j - 1, 'row')) or (
+                                self.arr[i - 1 - mov][j - 1] != '0' and not self.is_enemy(i - 1 - mov, j - 1)):
+                            print("Can't move!")
+                            mov = int(input("Please enter the number of steps you want to move = "))
+                            while mov <= 0:
+                                print("Invalid move!")
+                                mov = int(input("Please enter the number of steps you want to move = "))
+                        else:
+                            self.arr[i - 1 - mov][j - 1] = self.arr[i - 1][j - 1]
+                            self.arr[i - 1][j - 1] = '0'
+                    elif dic == 'l':
+                        while (j - 1 - mov < 0) or (not self.is_path_clear(j - 1 - mov, j - 1, i - 1, 'col')) or (
+                                self.arr[i - 1][j - 1 - mov] != '0' and not self.is_enemy(i - 1, j - 1 - mov)):
+                            print("Can't move!")
+                            mov = int(input("Please enter the number of steps you want to move = "))
+                            while mov <= 0:
+                                print("Invalid move!")
+                                mov = int(input("Please enter the number of steps you want to move = "))
+                        else:
+                            self.arr[i - 1][j - 1 - mov] = self.arr[i - 1][j - 1]
+                            self.arr[i - 1][j - 1] = '0'
+                    elif dic == '6':
+                        while (i - 1 + mov > 7 or j - 1 - mov < 0) or (
+                                not self.is_path_clear(i - 1, i - 1 + mov, j - 1, 'right_to_left')) or (
+                                self.arr[i - 1 + mov][j - 1 - mov] != '0' and not self.is_enemy(i - 1 + mov,
+                                                                                                j - 1 - mov)):
+                            print("Can't move!")
+                            mov = int(input("Please enter the number of steps you want to move = "))
+                            while mov <= 0:
+                                print("Invalid move!")
+                                mov = int(input("Please enter the number of steps you want to move = "))
+                        else:
+                            self.arr[i - 1 + mov][j - 1 - mov] = self.arr[i - 1][j - 1]
+                            self.arr[i - 1][j - 1] = '0'
+                    elif dic == '4':
+                        while (i - 1 + mov > 7 or j - 1 + mov > 7) or (
+                                not self.is_path_clear(i - 1, i - 1 + mov, j - 1, 'left_to_right')) or (
+                                self.arr[i - 1 + mov][j - 1 + mov] != '0' and not self.is_enemy(i - 1 + mov,
+                                                                                                j - 1 + mov)):
+                            print("Can't move!")
+                            mov = int(input("Please enter the number of steps you want to move = "))
+                            while mov <= 0:
+                                print("Invalid move!")
+                                mov = int(input("Please enter the number of steps you want to move = "))
+                        else:
+                            self.arr[i - 1 + mov][j - 1 + mov] = self.arr[i - 1][j - 1]
+                            self.arr[i - 1][j - 1] = '0'
+                    elif dic == '2':
+                        while (i - 1 - mov < 0 or j - 1 + mov > 7) or (
+                                not self.is_path_clear(i - 1 - mov, i - 1, j - 1 + mov, 'right_to_left')) or (
+                                self.arr[i - 1 - mov][j - 1 + mov] != '0' and not self.is_enemy(i - 1 - mov,
+                                                                                                j - 1 + mov)):
+                            print("Can't move!")
+                            mov = int(input("Please enter the number of steps you want to move = "))
+                            while mov <= 0:
+                                print("Invalid move!")
+                                mov = int(input("Please enter the number of steps you want to move = "))
+                        else:
+                            self.arr[i - 1 - mov][j - 1 + mov] = self.arr[i - 1][j - 1]
+                            self.arr[i - 1][j - 1] = '0'
+                    elif dic == '8':
+                        while (j - 1 - mov < 0 or i - 1 - mov < 0) or (
+                                not self.is_path_clear(i - 1 - mov, i - 1, j - 1 - mov, 'left_to_right') or (
+                                self.arr[i - 1 - mov][j - 1 - mov] != '0' and not self.is_enemy(i - 1 - mov,
+                                                                                                j - 1 - mov))):
+                            print("Can't move!")
+                            mov = int(input("Please enter the number of steps you want to move = "))
+                            while mov <= 0:
+                                print("Invalid move!")
+                                mov = int(input("Please enter the number of steps you want to move = "))
+                        else:
+                            self.arr[i - 1 - mov][j - 1 - mov] = self.arr[i - 1][j - 1]
+                            self.arr[i - 1][j - 1] = '0'
+
+    def king_mov(self):
+        print("Enter the coordinates of a king!")
+        i = int(input("Enter the row num: "))
+        j = int(input("Enter the column num: "))
+        while not self.is_selected_correctly(i - 1, j - 1, 'K'):  # calling function to check if user selected the
+            # correct piece
+            print("Please enter the row or column num correctly")
+            i = int(input("Enter the row num: "))
+            j = int(input("Enter the column num: "))
+        while (not self.is_moveable(i - 2, j - 1)) and (not self.is_moveable(i, j - 1)) and (
+                not self.is_moveable(i - 1, j - 2)) and (not self.is_moveable(i - 1, j)) and (
+                not self.is_moveable(i - 2, j - 2)) and (not self.is_moveable(i, j)) and (
+                not self.is_moveable(i - 2, j)) and (not self.is_moveable(i, j - 2)):
+            print("King can't move")
+            return False
+        else:
+            dic = input(
+                "2 = Upper Right Diagonal, 4 = Lower Right Diagonal, 6 = Lower Left Diagonal, 8 = Upper Left Diagonal\n"
+                "Please enter the direction(2,4,6,8,L,R,U,D): ").lower()
+            while dic != 'l' and dic != 'r' and dic != 'u' and dic != 'd' and dic != '2' and dic != '4' and dic != '6' and dic != '8':
+                dic = input(
+                    "2 = Upper Right Diagonal, 4 = Lower Right Diagonal, 6 = Lower Left Diagonal, 8 = Upper Left Diagonal\n"
+                    "Please enter the direction(2,4,6,8,L,R,U,D): ").lower()
+            while (dic == 'l' and not self.is_moveable(i - 1, j - 2)) or (
+                    dic == 'r' and not self.is_moveable(i - 1, j)) or (
+                    dic == 'u' and not self.is_moveable(i - 2, j - 1)) or (
+                    dic == 'd' and not self.is_moveable(i, j - 1)) or (
+                    dic == '2' and not self.is_moveable(i - 2, j)) or (
+                    dic == '4' and not self.is_moveable(i, j)) or (
+                    dic == '6' and not self.is_moveable(i, j - 2)) or (
+                    dic == '8' and not self.is_moveable(i - 2, j - 2)):
+                print("Can't move in that direction")
+                dic = input(
+                    "2 = Upper Right Diagonal, 4 = Lower Right Diagonal, 6 = Lower Left Diagonal, 8 = Upper Left Diagonal\n"
+                    "Please enter the direction(2,4,6,8,L,R,U,D): ").lower()
+                while dic != 'l' and dic != 'r' and dic != 'u' and dic != 'd' and dic != '2' and dic != '4' and dic != '6' and dic != '8':
+                    dic = input(
+                        "2 = Upper Right Diagonal, 4 = Lower Right Diagonal, 6 = Lower Left Diagonal, 8 = Upper Left Diagonal\n"
+                        "Please enter the direction(2,4,6,8,L,R,U,D): ").lower()
+            else:
+                mov = 1
+                if dic == 'd':
+                    self.arr[i - 1 + mov][j - 1] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
+                elif dic == 'r':
+                    self.arr[i - 1][j - 1 + mov] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
+                elif dic == 'u':
+                    self.arr[i - 1 - mov][j - 1] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
+                elif dic == 'l':
+                    self.arr[i - 1][j - 1 - mov] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
+                elif dic == '6':
+                    self.arr[i - 1 + mov][j - 1 - mov] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
+                elif dic == '4':
+                    self.arr[i - 1 + mov][j - 1 + mov] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
+                elif dic == '2':
+                    self.arr[i - 1 - mov][j - 1 + mov] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
+                elif dic == '8':
+                    self.arr[i - 1 - mov][j - 1 - mov] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
+
+    def knight_move(self):
+        print("Which knight you want to move?")
+        i = int(input("Enter the row num: "))
+        j = int(input("Enter the column num: "))
+        while not self.is_selected_correctly(i - 1, j - 1, 'N'):  # calling function to check if user selected the
+            # correct piece
+            print("Please enter the row or column num correctly")
+            i = int(input("Enter the row num: "))
+            j = int(input("Enter the column num: "))
+        while (not self.is_moveable(i - 3, j - 2)) and (not self.is_moveable(i - 3, j)) and (
+                not self.is_moveable(i + 1, j - 2)) and (not self.is_moveable(i + 1, j)) and (
+                not self.is_moveable(i - 2, j - 3)) and (not self.is_moveable(i, j - 3)) and (
+                not self.is_moveable(i - 2, j + 1)) and (not self.is_moveable(i, j + 1)):
+            print("This knight can't move")
+            print("Which knight you want to move?")
+            i = int(input("Enter the row num: "))
+            j = int(input("Enter the column num: "))
+            while not self.is_selected_correctly(i - 1, j - 1, 'N'):  # calling function to check if user selected the
+                # correct piece
+                print("Please enter the row or column num correctly")
+                i = int(input("Enter the row num: "))
+                j = int(input("Enter the column num: "))
+        else:
+            dic = input("D = Down, U = Up, L = Left, R = Right\n"
+                        "Please enter the direction(DL,DR,UL,UR,LU,LD,RU,RD): ").lower()
+            while dic != 'dl' and dic != 'dr' and dic != 'ul' and dic != 'ur' and dic != 'lu' and dic != 'ld' and dic != 'ru' and dic != 'rd':
+                dic = input("D = Down, U = Up, L = Left, R = Right\n"
+                            "Please enter the direction(DL,DR,UL,UR,LU,LD,RU,RD): ").lower()
+            while (dic == 'dl' and not self.is_moveable(i + 1, j - 2)) or (
+                    dic == 'dr' and not self.is_moveable(i + 1, j)) or (
+                    dic == 'ul' and not self.is_moveable(i - 3, j - 2)) or (
+                    dic == 'ur' and not self.is_moveable(i - 3, j)) or (
+                    dic == 'lu' and not self.is_moveable(i - 2, j - 3)) or (
+                    dic == 'ld' and not self.is_moveable(i, j - 3)) or (
+                    dic == 'ru' and not self.is_moveable(i - 2, j + 1)) or (
+                    dic == 'rd' and not self.is_moveable(i, j + 1)):
+                print("Can't move in that direction")
+                dic = input("D = Down, U = Up, L = Left, R = Right\n"
+                            "Please enter the direction(DL,DR,UL,UR,LU,LD,RU,RD): ").lower()
+                while dic != 'dl' and dic != 'dr' and dic != 'ul' and dic != 'ur' and dic != 'lu' and dic != 'ld' and dic != 'ru' and dic != 'rd':
+                    dic = input("D = Down, U = Up, L = Left, R = Right\n"
+                                "Please enter the direction(DL,DR,UL,UR,LU,LD,RU,RD): ").lower()
+            else:
+                if dic == 'dl':
+                    self.arr[i + 1][j - 2] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
+                elif dic == 'dr':
+                    self.arr[i + 1][j] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
+                elif dic == 'ul':
+                    self.arr[i - 3][j - 2] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
+                elif dic == 'ur':
+                    self.arr[i - 3][j] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
+                elif dic == 'lu':
+                    self.arr[i - 2][j - 3] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
+                elif dic == 'ld':
+                    self.arr[i][j - 3] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
+                elif dic == 'ru':
+                    self.arr[i - 2][j + 1] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
+                elif dic == 'rd':
+                    self.arr[i][j + 1] = self.arr[i - 1][j - 1]
+                    self.arr[i - 1][j - 1] = '0'
